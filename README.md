@@ -2,8 +2,8 @@
 
 Plugin to post Trac changes to a webhook endpoint.
 
-This is designed to be used in conjunction with the [luabot webhook
-plugin](https://github.com/aperezdc/luabot/blob/master/plugin/webhook.lua).
+This is designed to be used in conjunction with the [Dingding webhook
+bot](https://open-doc.dingtalk.com/docs/doc.htm?treeId=257&articleId=105733&docType=1).
 
 
 ## Installation
@@ -23,10 +23,7 @@ Configuration in trac.ini:
 
 ```ini
 [webhook]
-secret = randomstring
 url = https://host/webhook/path
-mucs = team@conference.domain.com,devel@conference.domain.com
-jids = bob@domain.com
 fields = type,component,resolution
 notify = created,changed,closed
 ```
@@ -35,12 +32,6 @@ Some notes on the configuration:
 
 * The list of ticket actions in `notify` can be empty. In that case, all
   actions are notified.
-* Multiple comma-separated JIDs can be specified both for `mucs` (chat rooms)
-  and `jids` (individuals).
-* The `secret` must be a random string which is configured also in the
-  receiving endpoint. It is used to generate a HMAC-SHA1 hex digest of the
-  body using `secret` as the key. The digest is sent in the
-  `X-WebHook-Signature` HTTP header.
 * It is possible to specify multiple `url` values separated by commas.
   Currently the usefulness of this feature is limited because the same
   `secret` is used for all the URL endpoints.
@@ -48,8 +39,9 @@ Some notes on the configuration:
 
 ## Acknowledgements
 
-This plugin is based on the [Slack Notification plugin](https://github.com/mandic-cloud/trac-slack-plugin),
-which is based itself on the [Irker Notification plugin](https://github.com/Southen/trac-irker-plugin).
+This plugin is based on the [trac webhook plugin](https://github.com/aperezdc/trac-webhook-plugin),
+which is based on the [Slack Notification plugin](https://github.com/mandic-cloud/trac-slack-plugin),
+which is based on the [Irker Notification plugin](https://github.com/Southen/trac-irker-plugin).
 Lots of thanks go to their authors!
 
 
