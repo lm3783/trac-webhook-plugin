@@ -40,9 +40,6 @@ class WebhookNotificationPlugin(Component):
     urls = Option('webhook', 'url', '', doc="Incoming webhook")
     fields = Option('webhook', 'fields', 'type,component,resolution',
             doc="Fields to include in notification")
-    mucs = Option("webhook", "mucs", "", doc="List of MUC rooms to notify")
-    jids = Option("webhook", "jids", "", doc="List of JIDs to notify")
-    secret = Option("webhook", "secret", "", doc="Secret used for signing requests")
     notify_events = Option("webhook", "notify", "created,closed,changed",
             doc="List of ticket events to notify")
 
@@ -77,21 +74,17 @@ class WebhookNotificationPlugin(Component):
             message += shorten(re.sub(r'({{{|}}})', '', values['comment']), 70)
             message += u"”"
 
-        mucs = self.mucs.strip()
-        jids = self.jids.strip()
 
         data = {
-            "mucs": map(lambda s: s.strip(), mucs.split(",")) if mucs else [],
-            "jids": map(lambda s: s.strip(), jids.split(",")) if jids else [],
-            "text": message.encode('utf-8').strip(),
-            "url" : values["url"],
+            "msgtype": "text",
+            "text": {
+                "content": message.encode('utf-8').strip()
+            }
         }
 
         data_body = json.dumps(data).encode("utf-8")
-        mac = hmac.new(self.secret.encode("utf-8"), msg=data_body, digestmod=hashlib.sha1)
         headers = {
-            "Content-Type": "application/json",
-            "X-WebHook-Signature": "sha1=" + mac.hexdigest(),
+            "Content-Type": "application/json"
         }
 
         try:

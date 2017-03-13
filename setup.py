@@ -8,9 +8,9 @@ setup(
     name='WebhookNotificationPlugin',
     version='0.2.1',
     description='Plugin to post Trac changes to a webhook',
-    author='Adrián Pérez de Castro',
-    author_email='aperez@igalia.com',
-    url='https://github.com/aperezdc/trac-webhook-plugin',
+    author='Li-Miao',
+    author_email='lm3783@gmail.com',
+    url='https://github.com/lm3783/trac-webhook-plugin',
     license='BSD',
     packages=['webhook_notification'],
     install_requires=[
